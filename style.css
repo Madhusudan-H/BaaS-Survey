@@ -1,0 +1,509 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for the form */
+#form-container {
+    width: 90%; /* Flexible width */
+    max-width: 800px; /* Cap width for larger screens */
+    margin: 50px auto; /* Center on the page */
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+/* Headings */
+h1, h2 {
+    text-align: center;
+    color: #005f73; /* Calm teal color for titles */
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+/* Text and Paragraphs */
+p, label, ol, ul {
+    font-size: 1em;
+    line-height: 1.8; /* Add more space between lines */
+    margin-bottom: 15px; /* Add spacing between elements */
+    text-align: justify; /* Justified alignment for paragraphs */
+}
+
+/* Ordered and Unordered Lists */
+ol, ul {
+    padding-left: 20px;
+}
+
+
+/* Center the Start Survey button */
+.start-survey-btn {
+    display: block; /* Treat the button as a block to enable centering */
+    margin: 30px auto; /* Center it horizontally and add some vertical spacing */
+    text-align: center; /* Align text inside the button */
+    padding: 15px 25px; /* Add some padding for better spacing */
+    background-color: #007bff; /* Button background */
+    color: #fff; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Add rounded corners */
+    font-size: 1.2em; /* Slightly larger font for visibility */
+    cursor: pointer; /* Add pointer cursor */
+}
+
+/* Add hover effect */
+.start-survey-btn:hover {
+    background-color: #0056b3; /* Darker background on hover */
+}
+
+
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/* Increase size of radio buttons */
+input[type="radio"] {
+    width: 20px; /* Increase the width */
+    height: 20px; /* Increase the height */
+    cursor: pointer; /* Ensure pointer cursor for usability */
+    margin-right: 10px; /* Space between the radio button and label */
+}
+
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Navigation Buttons Container */
+#form-navigation {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Place buttons on opposite ends */
+    margin-top: 20px;
+}
+
+/* Individual Buttons */
+#prev-btn {
+    order: 1; /* Ensure Previous button is first */
+}
+
+#next-btn {
+    order: 2; /* Ensure Next/Submit button is last */
+}
+
+/* Inputs (Radio Buttons, Dropdowns, etc.) */
+input[type="radio"], select {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    #form-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    p, label {
+        font-size: 0.9em;
+    }
+
+    button {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+}
+
+/* Tablet Responsiveness */
+@media (min-width: 601px) and (max-width: 1024px) {
+    #form-container {
+        width: 95%; /* Slightly wider for tablets */
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+td {
+    vertical-align: middle;
+}
+
+input[type="radio"] {
+    cursor: pointer;
+}
+/* Scrollable table container for smaller screens */
+.table-container {
+    overflow-x: auto;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Make the table responsive */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+td {
+    vertical-align: middle;
+}
+
+input[type="radio"] {
+    cursor: pointer;
+}
+
+/* Responsive behavior for smaller screens */
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+}
+/* Scrollable table container for Usage Matrix */
+.table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* General table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+td {
+    vertical-align: middle;
+}
+
+input[type="radio"] {
+    cursor: pointer;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+}
+
+/* Styling for the EV ownership question table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+td {
+    vertical-align: middle;
+}
+
+input[type="radio"] {
+    cursor: pointer;
+}
+
+
+
+
+
+/* General container for cards */
+.cards-container {
+    display: flex; /* Use flexbox to align cards in a row */
+    flex-wrap: nowrap; /* Prevent wrapping to new rows */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    justify-content: center; /* Center align cards */
+    gap: 10px; /* Add space between cards */
+    padding: 10px;
+    max-width: 100%; /* Ensure the container fits within the viewport */
+    scroll-snap-type: x mandatory; /* Enable snap scrolling */
+}
+
+/* Individual card styles */
+.card {
+    flex: 0 0 calc(30% - 10px); /* Default width for desktop */
+    max-width: 250px; /* Limit maximum card width */
+    min-width: 200px; /* Ensure a minimum card width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    background: #fff;
+    text-align: center;
+    border: 1px solid #ddd;
+    scroll-snap-align: center; /* Snap to center on scroll */
+}
+
+/* Adjustments for images inside cards */
+.card img {
+    width: 100%; /* Make image responsive */
+    height: auto;
+    max-height: 100px; /* Limit image height */
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+/* Font styles for card content */
+.card h3 {
+    font-size: 1.1em; /* Slightly larger for readability */
+    margin-bottom: 8px;
+}
+
+.card p {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.card ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 0.8em;
+    margin-bottom: 12px;
+}
+
+/* Dropdown container */
+.dropdown-container {
+    margin: 15px auto;
+    text-align: center;
+}
+
+.dropdown-container select {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Horizontal scrolling styles */
+.cards-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.cards-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.cards-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1025px) {
+    /* For large desktops */
+    .cards-container {
+        overflow-x: hidden; /* No scrolling on desktops */
+    }
+    .card {
+        flex: 0 0 calc(25% - 10px); /* Adjust card width to fit */
+    }
+}
+
+@media (max-width: 1024px) {
+    /* For tablets */
+    .card {
+        flex: 0 0 calc(30% - 10px); /* Adjust card width to fit */
+    }
+}
+
+@media (max-width: 768px) {
+    /* For mobile */
+    .cards-container {
+        justify-content: start; /* Align cards to the left */
+    }
+    .card {
+        flex: 0 0 calc(80% - 10px); /* Wider cards for easier reading */
+        max-width: 90%; /* Ensure it doesn't go beyond viewport */
+    }
+}
+
+
+/* Dropdown container for consistent styling */
+.dropdown-container {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+.dropdown-container select {
+    width: auto; /* Adjust to fit content */
+    padding: 8px 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    text-align-last: center; /* Center align text */
+}
+
+
+
+
+
+/* Center the Restart button */
+.restart-button-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-top: 20px;
+}
+
+.restart-button-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    text-align: center;
+}
+
+.restart-button-container button:hover {
+    background-color: #0056b3;
+}
+
+
+
+.navigation-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.navigation-container.choice-1-9 {
+    justify-content: space-between; /* Extreme left and right alignment */
+}
+
+.navigation-container.choice-10 {
+    justify-content: space-between; /* Align Previous button on left */
+}
+
+.choice-10 #submit-btn {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-top: 20px;
+}
+
+
+
+#form-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+#form-navigation button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#form-navigation #next-btn {
+    align-self: flex-end;
+    margin-left: auto; /* Align to the right */
+}
+
+#form-navigation #prev-btn {
+    align-self: flex-start;
+    margin-right: auto; /* Align to the left */
+}
+
+#form-navigation #submit-btn {
+    align-self: center;
+    margin: 0 auto; /* Center the Submit button */
+}

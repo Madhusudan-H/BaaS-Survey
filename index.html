@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaaS Survey</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="form-container">
+        <!-- Loading Indicator -->
+        <div id="loading" style="display: none;">Loading...</div>
+        
+        <!-- Dynamic content will be loaded here -->
+        <div id="form-content">
+            <p>Loading the survey... If this message persists, please refresh the page or contact support at madhusudanhamirwasia@kgpian.iitkgp.ac.in</p>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div id="form-navigation">
+            <button id="prev-btn" onclick="prevPage()" aria-label="Previous Page">Previous</button>
+            <button id="next-btn" onclick="nextPage()" aria-label="Next Page">Next</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

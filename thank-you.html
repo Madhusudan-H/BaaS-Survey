@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="form-container">
+        <h2>Thank You!</h2>
+        <p>Thank you for participating. Your participation means a lot to us.</p>
+        <p>For any query, please feel free to mail us at:</p>
+        <ul>
+            <li><a href="mailto:madhusudanhamirwasia@kgpian.iitkgp.ac.in">madhusudanhamirwasia@kgpian.iitkgp.ac.in</a></li>
+            <li><a href="mailto:madhusudanhamirwasia@gmail.com">madhusudanhamirwasia@gmail.com</a></li>
+        </ul>
+        <div class="restart-button-container">
+            <button onclick="restartSurvey()">Restart Survey</button>
+        </div>
+    </div>
+    <script>
+        function restartSurvey() {
+            window.location.href = '/'; // Redirect to the intro page
+        }
+    </script>
+</body>
+</html>
