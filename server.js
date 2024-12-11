@@ -1,36 +1,30 @@
-const express = require("express");
-const fs = require("fs");
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+
 const app = express();
+const PORT = 3000;
 
-app.use(express.json());
+// Middleware
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
-// Endpoint to handle form submissions
-app.post("/submit", (req, res) => {
-    const newResponse = req.body;
+// Endpoint to handle survey submission
+app.post('/submit-survey', (req, res) => {
+    const responseData = req.body;
 
-    // Read existing responses
-    fs.readFile("responses.json", "utf8", (err, data) => {
+    fs.appendFile('responses.json', JSON.stringify(responseData) + '\n', err => {
         if (err) {
-            console.error("Error reading file:", err);
-            return res.status(500).send("Server Error");
+            console.error('Error saving data:', err);
+            res.status(500).send('Error saving data');
+        } else {
+            res.status(200).send('Success');
         }
-
-        const responses = data ? JSON.parse(data) : [];
-        responses.push(newResponse);
-
-        // Save updated responses
-        fs.writeFile("responses.json", JSON.stringify(responses, null, 2), (err) => {
-            if (err) {
-                console.error("Error writing file:", err);
-                return res.status(500).send("Server Error");
-            }
-            res.status(200).send("Response saved successfully!");
-        });
     });
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
