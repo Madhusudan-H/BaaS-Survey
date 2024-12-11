@@ -1,6 +1,6 @@
 let currentChoiceCard = 0; // Tracks the current choice card
 const totalChoiceCards = 10; // Total number of choice card sets
-const imagePath = '/BaaS Subscription Plan.png'; // Path for the image
+const imagePath = 'public/BaaS Subscription Plan.png'; // Path for the image
 
 const choiceCardData = [
     {
