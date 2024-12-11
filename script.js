@@ -1,6 +1,6 @@
 let currentChoiceCard = 0; // Tracks the current choice card
 const totalChoiceCards = 10; // Total number of choice card sets
-const imagePath = 'public/BaaS Subscription Plan.png'; // Path for the image
+const imagePath = 'https://digetecture-cards.web.app/baas/public/baasplan.png'; // Path for the image
 
 const choiceCardData = [
     {
