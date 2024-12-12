@@ -1,26 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configure CORS to allow requests from specific origins
+// Configure CORS middleware
 const corsOptions = {
-    origin: 'https://baa-s-survey.vercel.app', // Allow requests from this origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
-    credentials: true // Allow credentials if necessary
+    origin: 'https://baa-s-survey.vercel.app', // Your frontend URL
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true // Allow credentials if needed
 };
+
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Handle preflight requests
+app.options('*', cors(corsOptions)); // Preflight requests
 
 // Middleware for parsing JSON
 app.use(bodyParser.json());
 
-// File path for responses.json
+// File path for storing responses
 const responsesFile = path.join(__dirname, 'responses.json');
 
 // Endpoint to handle survey submission
@@ -39,7 +40,7 @@ app.post('/submit-survey', (req, res) => {
             console.error('Error saving data:', err);
             res.status(500).send('Error saving data');
         } else {
-            res.status(200).send({ message: 'Success' });
+            res.status(200).send({ message: 'Survey received successfully!' });
         }
     });
 });
@@ -48,16 +49,16 @@ app.post('/submit-survey', (req, res) => {
 app.get('/responses', (req, res) => {
     fs.readFile(responsesFile, 'utf8', (err, data) => {
         if (err) {
-            console.error('Error reading responses.json:', err);
+            console.error('Error reading responses:', err);
             res.status(500).send('Error reading responses');
         } else {
             const responses = data.split('\n').filter(line => line).map(JSON.parse);
-            res.status(200).json(responses); // Serve the JSON data as an array
+            res.status(200).json(responses); // Serve JSON responses as an array
         }
     });
 });
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
