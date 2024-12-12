@@ -1094,14 +1094,15 @@ function renderChoiceCardPage(choiceIndex) {
 // Submit the survey
 function submitSurvey() {
     const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-    const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`).value;
+    const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
     if (!selectedPlan) {
         alert("Please select a plan before submitting.");
         return;
     }
 
-    surveyData[`choice-${currentChoiceCard}`] = selectedPlan; // Save the last selected choice
+    // Save the selected plan
+    surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
     localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
     console.log("Submitting survey data:", surveyData);
@@ -1113,27 +1114,26 @@ function submitSurvey() {
     })
         .then(response => {
             if (response.ok) {
-                localStorage.clear();
-                window.location.href = '/thank-you.html'; // Redirect to thank-you page
+                return response.json();
             } else {
-                alert('Failed to submit the survey.');
+                throw new Error(`HTTP Error: ${response.status}`);
             }
+        })
+        .then(data => {
+            console.log('Server Response:', data);
+            alert('Survey submitted successfully!');
+            localStorage.clear(); // Clear local storage after successful submission
+            window.location.href = '/thank-you.html'; // Redirect to thank-you page
         })
         .catch(error => {
             console.error('Error submitting survey:', error);
-            alert('Failed to submit the survey.');
+            alert('Failed to submit the survey. Please try again later.');
         });
 }
 
-
-
-
-
-
-
 // Navigation functions
 function nextChoiceCard() {
-    const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`).value;
+    const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
     if (!selectedPlan) {
         alert("Please select a plan before proceeding.");
@@ -1151,36 +1151,28 @@ function nextChoiceCard() {
 }
 
 function prevChoiceCard() {
-    if (currentChoiceCard === 0) {
-        
-    } else if (currentChoiceCard > 0) {
-        // Navigate to the previous choice card
+    if (currentChoiceCard > 0) {
         currentChoiceCard--;
         renderChoiceCardPage(currentChoiceCard);
     }
 }
 
-
 // Move to the next page
 function nextPage() {
-    // Save data from the current page
     const dataSaved = savePageData();
     if (dataSaved === false) {
         return; // Stop navigation if validation fails
     }
 
-    // Check if required fields are filled
     if (!validateInputs()) {
         alert('Please fill all required fields.');
         return;
     }
 
-    // Navigate to the next page
     if (currentPage < pages.length - 1) {
         if (currentPage === 4) { // On the Preference Matrix Page
             currentChoiceCard = 0; // Reset to the first choice card
             renderChoiceCardPage(currentChoiceCard);
-             
         }
 
         currentPage++;
@@ -1189,7 +1181,6 @@ function nextPage() {
         submitForm(); // Submit the form on the last page
     }
 }
-
 
 // Move to the previous page
 function prevPage() {
@@ -1215,7 +1206,7 @@ function savePageData() {
     localStorage.setItem('surveyData', JSON.stringify({ ...savedData, ...pageData }));
 
     // Validation for EV Ownership Matrix on Page 3
-    if (currentPage === 3) { // Page 4
+    if (currentPage === 3) {
         const ev2Count = parseInt(pageData.ev_2wheeler || 0);
         const ev4Count = parseInt(pageData.ev_4wheeler || 0);
 
@@ -1230,40 +1221,22 @@ function savePageData() {
         } 
     }
 
-
     if (currentPage === 4) { // Preference Matrix Page
         const agreement = document.querySelector('input[name="charging_cost_agreement"]:checked')?.value;
         const customExpense = document.getElementById('custom-expense')?.value;
-    
+
         if (agreement === 'no' && !customExpense) {
             alert('Please specify your charging expense.');
             return false; // Prevent navigation if required field is missing
         }
-    
+
         pageData.charging_cost_agreement = agreement;
         if (agreement === 'no') {
             pageData.custom_expense = customExpense;
         }
     }
-    
 
-
-
-    // Conditional logic for Question 6
-    if (currentPage === 3) { // Page 4
-        const ev2Count = parseInt(savedData.ev_2wheeler || 0);
-        const ev4Count = parseInt(savedData.ev_4wheeler || 0);
-        const totalEVs = ev2Count + ev4Count;
-
-        const multiEVQuestion = document.getElementById('multiple-ev-question');
-        if (multiEVQuestion) {
-            if (totalEVs > 1) {
-                multiEVQuestion.style.display = 'block';
-            } else {
-                multiEVQuestion.style.display = 'none';
-            }
-        }
-    }
+    return true;
 }
 
 // Validate required fields
@@ -1278,12 +1251,10 @@ function validateInputs() {
 }
 
 // Submit the form data to the server
-
 function submitForm() {
     const finalData = JSON.parse(localStorage.getItem('surveyData')) || {};
     console.log("Submitting survey data:", finalData);
 
-    // Corrected URL to the full backend endpoint
     fetch('https://baas-survey-backend.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1291,16 +1262,20 @@ function submitForm() {
     })
         .then(response => {
             if (response.ok) {
-                alert('Survey submitted successfully!');
-                localStorage.clear(); // Clear local storage after successful submission
-                window.location.href = '/thank-you.html'; // Redirect to thank-you page
+                return response.json();
             } else {
-                alert('Failed to submit the survey.');
+                throw new Error(`HTTP Error: ${response.status}`);
             }
+        })
+        .then(data => {
+            console.log('Server Response:', data);
+            alert('Survey submitted successfully!');
+            localStorage.clear();
+            window.location.href = '/thank-you.html';
         })
         .catch(error => {
             console.error('Error submitting form:', error);
-            alert('Failed to submit the survey.');
+            alert('Failed to submit the survey. Please try again later.');
         });
 }
 
