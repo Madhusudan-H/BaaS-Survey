@@ -1106,7 +1106,7 @@ function submitSurvey() {
 
     console.log("Submitting survey data:", surveyData);
 
-    fetch('https://survey-backend-zsdp.onrender.com/submit-survey', {
+    fetch('https://baas-survey-backend.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(surveyData)
@@ -1284,7 +1284,7 @@ function submitForm() {
     console.log("Submitting survey data:", finalData);
 
     // Corrected URL to the full backend endpoint
-    fetch('https://survey-backend-zsdp.onrender.com/submit-survey', {
+    fetch('https://baas-survey-backend.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalData)
