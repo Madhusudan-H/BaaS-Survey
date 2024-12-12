@@ -7,18 +7,18 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(bodyParser.json());
-
 // Configure CORS to allow requests from specific origins
 const corsOptions = {
-    origin: 'https://baa-s-survey.vercel.app', // Allow your frontend domain
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: 'https://baa-s-survey.vercel.app', // Allow requests from this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
     credentials: true // Allow credentials if necessary
 };
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
+
+// Middleware for parsing JSON
+app.use(bodyParser.json());
 
 // File path for responses.json
 const responsesFile = path.join(__dirname, 'responses.json');
