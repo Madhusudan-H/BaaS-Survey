@@ -1278,11 +1278,13 @@ function validateInputs() {
 }
 
 // Submit the form data to the server
+
 function submitForm() {
     const finalData = JSON.parse(localStorage.getItem('surveyData')) || {};
     console.log("Submitting survey data:", finalData);
 
-    fetch('/submit-survey', {
+    // Corrected URL to the full backend endpoint
+    fetch('https://survey-backend-zsdp.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalData)
@@ -1290,7 +1292,7 @@ function submitForm() {
         .then(response => {
             if (response.ok) {
                 alert('Survey submitted successfully!');
-                localStorage.clear();
+                localStorage.clear(); // Clear local storage after successful submission
                 window.location.href = '/thank-you.html'; // Redirect to thank-you page
             } else {
                 alert('Failed to submit the survey.');
@@ -1305,5 +1307,5 @@ function submitForm() {
 // Initialize the first page on load
 window.onload = () => {
     currentPage = 0; // Start at the first page
-    renderPage();
+    renderPage(); // Ensure this function exists and properly initializes the survey UI
 };
