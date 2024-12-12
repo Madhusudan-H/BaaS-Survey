@@ -9,7 +9,14 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+
+// Configure CORS to allow requests from specific origins
+const corsOptions = {
+    origin: ['https://baa-s-survey.vercel.app', 'http://localhost:3001'], // Allow specific origins
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: ['Content-Type']
+};
+app.use(cors(corsOptions));
 
 // File path for responses.json
 const responsesFile = path.join(__dirname, 'responses.json');
@@ -29,6 +36,12 @@ if (fs.existsSync(responsesFile)) {
 app.post('/submit-survey', (req, res) => {
     const responseData = req.body;
 
+    // Validate request body
+    if (!responseData || typeof responseData !== 'object') {
+        res.status(400).send('Invalid data format');
+        return;
+    }
+
     // Add serial ID to the response
     responseData.id = currentId++;
 
@@ -38,7 +51,7 @@ app.post('/submit-survey', (req, res) => {
             console.error('Error saving data:', err);
             res.status(500).send('Error saving data');
         } else {
-            res.status(200).send('Success');
+            res.status(200).send({ message: 'Success', id: responseData.id });
         }
     });
 });
@@ -50,7 +63,8 @@ app.get('/responses', (req, res) => {
             console.error('Error reading responses.json:', err);
             res.status(500).send('Error reading responses');
         } else {
-            res.type('json').send(data); // Serve the JSON data
+            const responses = data.split('\n').filter(line => line).map(JSON.parse);
+            res.status(200).json(responses); // Serve the JSON data as an array
         }
     });
 });
