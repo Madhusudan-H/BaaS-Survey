@@ -1107,17 +1107,20 @@ function submitSurvey() {
 
     console.log("Submitting survey data:", surveyData);
 
+    // Send the data to the backend
     fetch('https://baas-survey-backend.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(surveyData)
     })
         .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error(`HTTP Error: ${response.status}`);
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    console.error('Error Response from Server:', errorData);
+                    throw new Error(`Server responded with status: ${response.status}`);
+                });
             }
+            return response.json();
         })
         .then(data => {
             console.log('Server Response:', data);
@@ -1130,7 +1133,6 @@ function submitSurvey() {
             alert('Failed to submit the survey. Please try again later.');
         });
 }
-
 // Navigation functions
 function nextChoiceCard() {
     const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
