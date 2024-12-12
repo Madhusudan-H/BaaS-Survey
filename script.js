@@ -1106,7 +1106,7 @@ function submitSurvey() {
 
     console.log("Submitting survey data:", surveyData);
 
-    fetch('/submit-survey', {
+    fetch('https://baas-survey-backend.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(surveyData)
@@ -1124,6 +1124,7 @@ function submitSurvey() {
             alert('Failed to submit the survey.');
         });
 }
+
 
 
 
