@@ -1108,7 +1108,7 @@ function submitSurvey() {
     console.log("Submitting survey data:", surveyData);
 
     // Send the data to the backend
-    fetch('https://baas-survey-backend.onrender.com/submit-survey', {
+    fetch('https://baas-survey.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(surveyData)
@@ -1257,7 +1257,7 @@ function submitForm() {
     const finalData = JSON.parse(localStorage.getItem('surveyData')) || {};
     console.log("Submitting survey data:", finalData);
 
-    fetch('https://baas-survey-backend.onrender.com/submit-survey', {
+    fetch('https://baas-survey.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(finalData)
