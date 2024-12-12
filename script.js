@@ -1106,7 +1106,7 @@ function submitSurvey() {
 
     console.log("Submitting survey data:", surveyData);
 
-    fetch('https://baas-survey-backend.onrender.com/submit-survey', {
+    fetch('https://survey-backend-zsdp.onrender.com/submit-survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(surveyData)
