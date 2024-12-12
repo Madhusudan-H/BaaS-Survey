@@ -23,17 +23,6 @@ app.use(bodyParser.json());
 // File path for responses.json
 const responsesFile = path.join(__dirname, 'responses.json');
 
-// Initialize ID counter
-let currentId = 1;
-
-if (fs.existsSync(responsesFile)) {
-    const data = fs.readFileSync(responsesFile, 'utf8');
-    const responses = data.split('\n').filter(line => line).map(JSON.parse);
-    if (responses.length > 0) {
-        currentId = responses[responses.length - 1].id + 1; // Set ID to the last ID + 1
-    }
-}
-
 // Endpoint to handle survey submission
 app.post('/submit-survey', (req, res) => {
     const responseData = req.body;
@@ -44,16 +33,13 @@ app.post('/submit-survey', (req, res) => {
         return;
     }
 
-    // Add serial ID to the response
-    responseData.id = currentId++;
-
     // Append the response to responses.json
     fs.appendFile(responsesFile, JSON.stringify(responseData) + '\n', (err) => {
         if (err) {
             console.error('Error saving data:', err);
             res.status(500).send('Error saving data');
         } else {
-            res.status(200).send({ message: 'Success', id: responseData.id });
+            res.status(200).send({ message: 'Success' });
         }
     });
 });
