@@ -12,11 +12,13 @@ app.use(bodyParser.json());
 
 // Configure CORS to allow requests from specific origins
 const corsOptions = {
-    origin: ['https://baa-s-survey.vercel.app', 'http://localhost:3001'], // Allow specific origins
+    origin: 'https://baa-s-survey.vercel.app', // Allow your frontend domain
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true // Allow credentials if necessary
 };
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 // File path for responses.json
 const responsesFile = path.join(__dirname, 'responses.json');
