@@ -1128,18 +1128,21 @@ function nextChoiceCard() {
 
     if (!selectedPlan) {
         alert("Please select a plan before proceeding.");
-        return;
+        return; // Prevent navigation if no choice is made
     }
 
     const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-    surveyData[`choice-${currentChoiceCard}`] = selectedPlan; // Save the selected choice
-    localStorage.setItem("surveyData", JSON.stringify(surveyData));
+    surveyData[`choice-${currentChoiceCard}`] = selectedPlan; // Save the current choice
+    localStorage.setItem("surveyData", JSON.stringify(surveyData)); // Update localStorage
+
+    console.log(`Saved choice-${currentChoiceCard}:`, selectedPlan); // Debugging log
 
     if (currentChoiceCard < totalChoiceCards - 1) {
         currentChoiceCard++;
         renderChoiceCardPage(currentChoiceCard);
     }
 }
+
 
 function prevChoiceCard() {
     if (currentChoiceCard > 0) {
@@ -1150,31 +1153,42 @@ function prevChoiceCard() {
 
 // Move to the next page
 function nextPage() {
-    const dataSaved = savePageData();
-    if (dataSaved === false) {
-        return; // Stop navigation if validation fails
-    }
-
-    if (!validateInputs()) {
-        alert('Please fill all required fields.');
-        return;
-    }
-
-    if (currentPage < pages.length - 1) {
-        if (currentPage === 4) { // On the Preference Matrix Page
-            currentChoiceCard = 0; // Reset to the first choice card
-            renderChoiceCardPage(currentChoiceCard);
+    try {
+        // Save current page data
+        const dataSaved = savePageData();
+        if (!dataSaved) {
+            return; // Stop navigation if validation fails
         }
 
-        currentPage++;
-        renderPage();
-    } else {
-         submitForm(); // Use submitSurvey() for final submission
+        // Validate required inputs
+        if (!validateInputs()) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        // Proceed to the next page if all validations pass
+        if (currentPage < pages.length - 1) {
+            if (currentPage === 4) { // On the Preference Matrix Page
+                currentChoiceCard = 0; // Reset to the first choice card
+                renderChoiceCardPage(currentChoiceCard); // Render the choice cards
+                return; // Stop further navigation as we're moving to choice cards
+            }
+
+            currentPage++;
+            renderPage(); // Render the next page
+        } else {
+            submitForm(); // Submit the form on the final page
+        }
+    } catch (error) {
+        console.error('Error navigating to the next page:', error);
+        alert('An unexpected error occurred. Please try again.');
     }
 }
 
+
 // Move to the previous page
 function prevPage() {
+    savePageData(); // Save data before navigating back
     if (currentPage > 0) {
         currentPage--;
         renderPage();
@@ -1182,53 +1196,76 @@ function prevPage() {
 }
 
 function savePageData() {
-    const inputs = document.querySelectorAll('#form-content input, #form-content select');
-    const pageData = {};
+    try {
+        // Select all inputs and selects within the form
+        const inputs = document.querySelectorAll('#form-content input, #form-content select');
+        const pageData = {};
 
-    inputs.forEach(input => {
-        if (input.type === 'radio' || input.type === 'checkbox') {
-            if (input.checked) pageData[input.name] = input.value;
-        } else {
-            pageData[input.name] = input.value;
+        // Iterate through inputs to collect their values
+        inputs.forEach(input => {
+            if (input.type === 'radio' || input.type === 'checkbox') {
+                if (input.checked) {
+                    pageData[input.name] = input.value;
+                }
+            } else {
+                pageData[input.name] = input.value;
+            }
+        });
+
+        // Retrieve and merge existing data from localStorage
+        const savedData = JSON.parse(localStorage.getItem('surveyData')) || {};
+        const updatedData = { ...savedData, ...pageData };
+        
+        // Save the updated data back to localStorage
+        localStorage.setItem('surveyData', JSON.stringify(updatedData));
+
+        // Debugging: Log the current page data
+        console.log("Page data saved:", pageData);
+
+        // Specific validation for EV Ownership Matrix on Page 3
+        if (currentPage === 3) {
+            const ev2Count = parseInt(pageData.ev_2wheeler || 0, 10);
+            const ev4Count = parseInt(pageData.ev_4wheeler || 0, 10);
+
+            if (ev2Count === 0 && ev4Count === 0) {
+                alert('You must proceed with at least one EV. Please update your response.');
+                return false; // Prevent navigation
+            }
+
+            const drivingDistanceInput = parseInt(pageData.driving_distance, 10);
+            if (isNaN(drivingDistanceInput) || drivingDistanceInput <= 0) {
+                alert('Please enter a valid daily driving distance in kilometers.');
+                return false; // Prevent navigation
+            }
         }
-    });
 
-    const savedData = JSON.parse(localStorage.getItem('surveyData')) || {};
-    localStorage.setItem('surveyData', JSON.stringify({ ...savedData, ...pageData }));
+        // Validation for Preference Matrix on Page 4
+        if (currentPage === 4) {
+            const agreement = document.querySelector('input[name="charging_cost_agreement"]:checked')?.value;
+            const customExpense = document.getElementById('custom-expense')?.value;
 
-    // Validation for EV Ownership Matrix on Page 3
-    if (currentPage === 3) {
-        const ev2Count = parseInt(pageData.ev_2wheeler || 0);
-        const ev4Count = parseInt(pageData.ev_4wheeler || 0);
+            if (agreement === 'no' && (!customExpense || isNaN(parseInt(customExpense, 10)) || parseInt(customExpense, 10) <= 0)) {
+                alert('Please specify a valid monthly EV charging expense.');
+                return false; // Prevent navigation
+            }
 
-        if (ev2Count === 0 && ev4Count === 0) {
-            alert('You must proceed with at least one EV. Please update your response.');
-            return false; // Prevent navigation
+            pageData.charging_cost_agreement = agreement;
+            if (agreement === 'no') {
+                pageData.custom_expense = customExpense;
+            }
         }
-        const drivingDistanceInput = parseInt(pageData.driving_distance, 10);
-        if (isNaN(drivingDistanceInput) || drivingDistanceInput <= 0) {
-            alert('Please enter a valid daily driving distance in kilometers.');
-            return false; // Prevent navigation
-        } 
+
+        // Debugging: Log the updated survey data
+        console.log("Updated survey data:", updatedData);
+
+        return true; // Allow navigation
+    } catch (error) {
+        console.error("Error in savePageData:", error);
+        alert('An error occurred while saving the data. Please try again.');
+        return false; // Prevent navigation in case of an error
     }
-
-    if (currentPage === 4) { // Preference Matrix Page
-        const agreement = document.querySelector('input[name="charging_cost_agreement"]:checked')?.value;
-        const customExpense = document.getElementById('custom-expense')?.value;
-
-        if (agreement === 'no' && !customExpense) {
-            alert('Please specify your charging expense.');
-            return false; // Prevent navigation if required field is missing
-        }
-
-        pageData.charging_cost_agreement = agreement;
-        if (agreement === 'no') {
-            pageData.custom_expense = customExpense;
-        }
-    }
-
-    return true;
 }
+
 
 // Validate required fields
 function validateInputs() {
