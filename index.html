@@ -24,29 +24,27 @@
     </div>
 
     <!-- Firebase SDKs -->
-  <script type="module">
-    // Import the Firebase functions from the CDN
+ <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
     import { getFirestore } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
-    // Your Firebase configuration
     const firebaseConfig = {
-        apiKey: "AIzaSyDuQq3Rpu6pD04Q8rT-3JwXLEyvyqB__Gs",
-        authDomain: "baas-survey.firebaseapp.com",
-        projectId: "baas-survey",
-        storageBucket: "baas-survey.appspot.com",
-        messagingSenderId: "825698903982",
-        appId: "1:825698903982:web:88ddc529c682be1007ca3f",
-        measurementId: "G-D2NGTXF53S"
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+        measurementId: "YOUR_MEASUREMENT_ID",
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Expose Firestore database for other scripts
+    // Expose Firestore globally for other scripts
     window.firebaseDb = db;
 </script>
+
 
 
     <!-- Your existing JavaScript -->
