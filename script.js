@@ -1169,7 +1169,7 @@ function nextPage() {
         currentPage++;
         renderPage();
     } else {
-         submitSurvey(); // Use submitSurvey() for final submission
+         submitForm(); // Use submitSurvey() for final submission
     }
 }
 
