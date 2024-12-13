@@ -1124,24 +1124,38 @@ async function submitSurvey() {
 
 // Navigation functions
 function nextChoiceCard() {
-    const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
+    try {
+        const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
-    if (!selectedPlan) {
-        alert("Please select a plan before proceeding.");
-        return; // Prevent navigation if no choice is made
-    }
+        if (!selectedPlan) {
+            alert("Please select a plan before proceeding.");
+            return;
+        }
 
-    const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-    surveyData[`choice-${currentChoiceCard}`] = selectedPlan; // Save the current choice
-    localStorage.setItem("surveyData", JSON.stringify(surveyData)); // Update localStorage
+        // Save the selected plan
+        const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
+        surveyData[`choice-${currentChoiceCard}`] = selectedPlan; // Save the selected choice
+        localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
-    console.log(`Saved choice-${currentChoiceCard}:`, selectedPlan); // Debugging log
+        // Move to the next choice card
+        if (currentChoiceCard < totalChoiceCards - 1) {
+            currentChoiceCard++;
+            renderChoiceCardPage(currentChoiceCard);
+        } else {
+            // Save the last choice before submitting
+            const finalChoice = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
+            surveyData[`choice-${currentChoiceCard}`] = finalChoice;
+            localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
-    if (currentChoiceCard < totalChoiceCards - 1) {
-        currentChoiceCard++;
-        renderChoiceCardPage(currentChoiceCard);
+            // Proceed to submit the survey
+            submitSurvey();
+        }
+    } catch (error) {
+        console.error("Error saving choice card data:", error);
+        alert("An unexpected error occurred while saving your choice. Please try again.");
     }
 }
+
 
 
 function prevChoiceCard() {
