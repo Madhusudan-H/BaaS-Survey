@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configure CORS middleware
 const corsOptions = {
-    origin: 'https://baa-s-survey.vercel.app', // Your frontend URL
+    origin: 'https://baas-survey.digetecture.in/', // Your frontend URL
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true // Allow credentials if needed
