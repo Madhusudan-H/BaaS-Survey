@@ -1095,7 +1095,7 @@ function renderChoiceCardPage(choiceIndex) {
 // Submit the survey
 async function submitSurvey() {
     try {
-        // Ensure Firestore is initialized from the window object
+        // Ensure Firestore is initialized from the global window object
         const db = window.firebaseDb;
         if (!db) {
             throw new Error("Firestore is not initialized. Check Firebase setup.");
@@ -1103,29 +1103,25 @@ async function submitSurvey() {
 
         // Retrieve survey data from localStorage
         const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-        const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
-
-        if (!selectedPlan) {
-            alert("Please select a plan before submitting.");
+        if (Object.keys(surveyData).length === 0) {
+            alert("Survey data is empty. Please complete the survey before submitting.");
             return;
         }
 
-        // Add selected plan to surveyData
-        surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
-
-        // Save survey data to Firestore
-        const surveyCollection = firebase.firestore().collection("surveyResponses");
-        const docRef = await surveyCollection.add(surveyData);
+        // Add the survey data to the Firestore collection
+        const surveyCollection = collection(db, "surveyResponses");
+        const docRef = await addDoc(surveyCollection, surveyData);
 
         console.log("Document written with ID: ", docRef.id);
         alert("Survey submitted successfully!");
-        localStorage.clear(); // Clear localStorage after submission
+        localStorage.clear(); // Clear local storage after submission
         window.location.href = "/thank-you.html"; // Redirect to the thank-you page
     } catch (error) {
-        console.error("Error adding document:", error);
+        console.error("Error adding document: ", error);
         alert("Failed to submit the survey. Please try again later.");
     }
 }
+
 
 
 
