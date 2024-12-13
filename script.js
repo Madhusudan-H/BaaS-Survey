@@ -1095,11 +1095,13 @@ function renderChoiceCardPage(choiceIndex) {
 // Submit the survey
 async function submitSurvey() {
     try {
+        // Ensure Firestore is initialized from the window object
         const db = window.firebaseDb;
         if (!db) {
             throw new Error("Firestore is not initialized. Check Firebase setup.");
         }
 
+        // Retrieve survey data from localStorage
         const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
         const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
@@ -1108,23 +1110,23 @@ async function submitSurvey() {
             return;
         }
 
-        // Save the selected plan to survey data
+        // Add selected plan to surveyData
         surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
-        localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
-        console.log("Submitting survey data to Firestore:", surveyData);
+        // Save survey data to Firestore
+        const surveyCollection = firebase.firestore().collection("surveyResponses");
+        const docRef = await surveyCollection.add(surveyData);
 
-        // Add data to Firestore
-        const docRef = await db.collection("surveyResponses").add(surveyData);
-
-        alert(`Survey submitted successfully! Document ID: ${docRef.id}`);
-        localStorage.clear(); // Clear local storage after successful submission
-        window.location.href = "/thank-you.html"; // Redirect to thank-you page
+        console.log("Document written with ID: ", docRef.id);
+        alert("Survey submitted successfully!");
+        localStorage.clear(); // Clear localStorage after submission
+        window.location.href = "/thank-you.html"; // Redirect to the thank-you page
     } catch (error) {
-        console.error("Error submitting survey:", error);
+        console.error("Error adding document:", error);
         alert("Failed to submit the survey. Please try again later.");
     }
 }
+
 
 
 
