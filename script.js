@@ -591,8 +591,13 @@ const pages = [
     {
     type: 'thank_you',
     content: `
-        <h2>Thank You for Completing the Survey!</h2>
-        <p>We appreciate your valuable time and input. Your responses have been recorded successfully.</p>
+        <h2>Thank You!</h2>
+        <p>Thank you for participating. Your participation means a lot to us.</p>
+        <p>For any query, please feel free to mail us at:</p>
+        <ul>
+            <li><a href="mailto:madhusudanhamirwasia@kgpian.iitkgp.ac.in">madhusudanhamirwasia@kgpian.iitkgp.ac.in</a></li>
+            <li><a href="mailto:madhusudanhamirwasia@gmail.com">madhusudanhamirwasia@gmail.com</a></li>
+        </ul>
         <button onclick="submitSurvey()">Submit Your Responses</button>
     `
 }
