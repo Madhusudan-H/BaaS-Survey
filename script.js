@@ -1101,7 +1101,7 @@ async function submitSurvey() {
         console.log("Survey Data to Submit:", surveyData);
 
         // Send the data to the backend
-        const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
+        const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/test11', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
