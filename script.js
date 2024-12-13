@@ -586,7 +586,16 @@ const pages = [
         type: "choice_cards",
         content: "" // This is dynamically generated in renderChoiceCardPage
     }
-      
+
+
+    {
+    type: 'thank_you',
+    content: `
+        <h2>Thank You for Completing the Survey!</h2>
+        <p>We appreciate your valuable time and input. Your responses have been recorded successfully.</p>
+        <button onclick="submitSurvey()">Submit Your Responses</button>
+    `
+}
     
 ];
 
@@ -1144,23 +1153,21 @@ function nextChoiceCard() {
         surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
         localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
-        // Check if this is the last choice card
+        // Navigate to thank-you page after the last choice card
         if (currentChoiceCard < totalChoiceCards - 1) {
             currentChoiceCard++;
             renderChoiceCardPage(currentChoiceCard);
         } else {
-            // Explicitly save the last choice before submitting
-            surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
-            localStorage.setItem("surveyData", JSON.stringify(surveyData));
-
-            console.log("Final Survey Data:", surveyData); // Debugging
-            submitSurvey();
+            currentPage = pages.findIndex(page => page.type === 'thank_you');
+            renderPage(); // Navigate to thank-you page
         }
     } catch (error) {
         console.error("Error in nextChoiceCard:", error);
         alert("An unexpected error occurred. Please refresh the page and try again.");
     }
 }
+
+
 
 
 
