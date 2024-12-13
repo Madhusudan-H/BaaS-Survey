@@ -123,6 +123,18 @@ const choiceCardData = [
         emergencyFeatureB: "0 Times",
         batteryHealthB: "Only Health Monitoring",
     },
+     {
+        costMultiplierA: 1.1,
+        rangeMultiplierA: 0.8,
+        chargingDistA: { dcSuperfast: 50, dcFast: 50 },
+        emergencyFeatureA: "4 Times",
+        batteryHealthA: "Health Monitoring + Warranty (5 years)",
+        costMultiplierB: 1.1,
+        rangeMultiplierB: 1.0,
+        chargingDistB: { dcSuperfast: 75, dcFast: 25 },
+        emergencyFeatureB: "0 Times",
+        batteryHealthB: "Only Health Monitoring",
+    },
 ];
 
 
@@ -141,7 +153,7 @@ const pages = [
                 <li>Behavioral Characteristics</li>
                 <li>EV Ownership and Driving Statistics</li>
                 <li>EV Usage Matrix and Preference Ranking</li>
-                <li>Preference Selection of Subscription Cards (10 choice Sets)</li>
+                <li>Preference Selection of Subscription Cards</li>
             </ol>
             <p>The whole survey may take 10-15 minutes to complete.</p>
             <p>For any queries, please feel free to email us at:</p>
@@ -1031,7 +1043,7 @@ function renderChoiceCardPage(choiceIndex) {
                     Below are 3 subscription plans: Plan A, Plan B, and Plan C. Plan C represents your current scenario,
                     while Plans A and B have some variations. Choose the plan that suits you best.
                 </p>
-                <h3 style="margin-bottom: 20px;">Choice Set ${choiceIndex + 1}/10</h3>
+                <h3 style="margin-bottom: 20px;">Choice Set ${choiceIndex + 1}/11</h3>
             </div>
             <div class="cards-container" style="display: flex; justify-content: space-around; gap: 20px; margin-top: 20px;">
                 <div class="card" style="width: 30%; border: 1px solid #ccc; padding: 15px; border-radius: 8px; text-align: center;">
