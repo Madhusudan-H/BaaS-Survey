@@ -1101,7 +1101,7 @@ async function submitSurvey() {
         console.log("Survey Data to Submit:", surveyData);
 
         // Send the data to the backend
-        const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/test11', {
+        const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyResponses', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1304,7 +1304,7 @@ function submitForm() {
     const finalData = JSON.parse(localStorage.getItem('surveyData')) || {};
     console.log("Submitting survey data:", finalData);
 
-    fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/test11', {
+    fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyResponses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ responseData: finalData })
