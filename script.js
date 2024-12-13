@@ -960,7 +960,12 @@ function renderChoiceCardPage(choiceIndex) {
         const choiceData = choiceCardData[choiceIndex];
         if (!choiceData) {
             throw new Error(`Choice data not found for index: ${choiceIndex}`);
-        }
+          return;
+    }
+
+    console.log("Rendering Choice Card Page:", choiceIndex);
+    const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
+    console.log("Survey Data Before Rendering:", surveyData);
 
         const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
         const dailyAvgDistance = parseInt(surveyData.driving_distance, 10) || 30;
@@ -1093,14 +1098,14 @@ function renderChoiceCardPage(choiceIndex) {
 
 // Submit the survey
 async function submitSurvey() {
+    const surveyData = JSON.parse(localStorage.getItem('surveyData')) || {};
+    console.log("Final Survey Data Before Submission:", surveyData);
+
+    if (!surveyData['choice-9']) {
+        console.error("Error: choice-9 is missing from the survey data!");
+    }
+
     try {
-        // Retrieve all survey data from localStorage
-        const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-
-        // Debug: Log the survey data before submission
-        console.log("Survey Data to Submit:", surveyData);
-
-        // Send the data to the backend
         const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
             method: 'POST',
             headers: {
@@ -1111,18 +1116,18 @@ async function submitSurvey() {
 
         if (response.ok) {
             alert('Survey submitted successfully!');
-            localStorage.clear(); // Clear the stored data after successful submission
-            window.location.href = '/thank-you.html'; // Redirect to thank-you page
+            localStorage.clear();
+            window.location.href = '/thank-you.html';
         } else {
             const errorData = await response.json();
             console.error('Error submitting survey:', errorData);
-            alert('Failed to submit the survey. Please try again later.');
         }
     } catch (error) {
-        console.error('Error submitting survey:', error);
-        alert('An error occurred during submission. Please try again.');
+        console.error('Error:', error);
     }
 }
+
+
 
 
 
