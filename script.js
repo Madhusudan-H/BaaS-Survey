@@ -586,26 +586,8 @@ const pages = [
         type: "choice_cards",
         content: "" // This is dynamically generated in renderChoiceCardPage
     }
-
-
-   {
-    type: 'thank_you',
-    content: `
-        <div id="form-container">
-            <h2>Thank You!</h2>
-            <p>Thank you for participating. Your participation means a lot to us.</p>
-            <p>For any query, please feel free to mail us at:</p>
-            <ul>
-                <li><a href="mailto:madhusudanhamirwasia@kgpian.iitkgp.ac.in">madhusudanhamirwasia@kgpian.iitkgp.ac.in</a></li>
-                <li><a href="mailto:madhusudanhamirwasia@gmail.com">madhusudanhamirwasia@gmail.com</a></li>
-            </ul>
-            <div class="submit-button-container">
-                <button onclick="submitSurvey()">Submit Your Responses</button>
-            </div>
-        </div>
-    `
-}
-  
+      
+    
 ];
 
 let currentPage = 0;
@@ -1112,10 +1094,13 @@ function renderChoiceCardPage(choiceIndex) {
 // Submit the survey
 async function submitSurvey() {
     try {
+        // Retrieve all survey data from localStorage
         const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
 
+        // Debug: Log the survey data before submission
         console.log("Survey Data to Submit:", surveyData);
 
+        // Send the data to the backend
         const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
             method: 'POST',
             headers: {
@@ -1127,7 +1112,7 @@ async function submitSurvey() {
         if (response.ok) {
             alert('Survey submitted successfully!');
             localStorage.clear(); // Clear the stored data after successful submission
-            window.location.href = '/thank-you.html'; // Redirect to the standalone Thank You page
+            window.location.href = '/thank-you.html'; // Redirect to thank-you page
         } else {
             const errorData = await response.json();
             console.error('Error submitting survey:', errorData);
@@ -1138,7 +1123,6 @@ async function submitSurvey() {
         alert('An error occurred during submission. Please try again.');
     }
 }
-
 
 
 
@@ -1160,22 +1144,23 @@ function nextChoiceCard() {
         surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
         localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
-        // Navigate to the Thank You page after the last choice card
+        // Check if this is the last choice card
         if (currentChoiceCard < totalChoiceCards - 1) {
             currentChoiceCard++;
             renderChoiceCardPage(currentChoiceCard);
         } else {
-            currentPage = pages.findIndex(page => page.type === 'thank_you');
-            renderPage(); // Render the Thank You page
+            // Explicitly save the last choice before submitting
+            surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
+            localStorage.setItem("surveyData", JSON.stringify(surveyData));
+
+            console.log("Final Survey Data:", surveyData); // Debugging
+            submitSurvey();
         }
     } catch (error) {
         console.error("Error in nextChoiceCard:", error);
         alert("An unexpected error occurred. Please refresh the page and try again.");
     }
 }
-
-
-
 
 
 
