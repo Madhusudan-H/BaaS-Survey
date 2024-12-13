@@ -1092,47 +1092,36 @@ function renderChoiceCardPage(choiceIndex) {
 
 
 // Submit the survey
-function submitSurvey() {
-    const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-    const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
+async function submitSurvey() {
+    const surveyData = JSON.parse(localStorage.getItem('surveyData')) || {}; // Retrieve survey data from localStorage
 
-    if (!selectedPlan) {
-        alert("Please select a plan before submitting.");
-        return;
-    }
-
-    // Save the selected plan
-    surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
-    localStorage.setItem("surveyData", JSON.stringify(surveyData));
-
-    console.log("Submitting survey data:", surveyData);
-
-    // Send the data to the backend
-    fetch('https://baas-survey.onrender.com/submit-survey', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(surveyData)
-    })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    console.error('Error Response from Server:', errorData);
-                    throw new Error(`Server responded with status: ${response.status}`);
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Server Response:', data);
-            alert('Survey submitted successfully!');
-            localStorage.clear(); // Clear local storage after successful submission
-            window.location.href = '/thank-you.html'; // Redirect to thank-you page
-        })
-        .catch(error => {
-            console.error('Error submitting survey:', error);
-            alert('Failed to submit the survey. Please try again later.');
+    try {
+        // Make a POST request to the Xano endpoint
+        const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Specify the content type as JSON
+            },
+            body: JSON.stringify({ responseData: surveyData }), // Send survey data as the request body
         });
+
+        if (response.ok) {
+            alert('Survey submitted successfully!');
+            localStorage.clear(); // Clear stored data after successful submission
+            window.location.href = '/thank-you.html'; // Redirect to the thank-you page
+        } else {
+            const errorData = await response.json();
+            console.error('Error submitting survey:', errorData);
+            alert('Failed to submit the survey. Please try again later.');
+        }
+    } catch (error) {
+        console.error('Error submitting survey:', error);
+        alert('Failed to submit the survey. Please check your network and try again.');
+    }
 }
+
+
+
 // Navigation functions
 function nextChoiceCard() {
     const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
@@ -1180,7 +1169,7 @@ function nextPage() {
         currentPage++;
         renderPage();
     } else {
-        submitForm(); // Submit the form on the last page
+         submitSurvey(); // Use submitSurvey() for final submission
     }
 }
 
@@ -1257,10 +1246,10 @@ function submitForm() {
     const finalData = JSON.parse(localStorage.getItem('surveyData')) || {};
     console.log("Submitting survey data:", finalData);
 
-    fetch('https://baas-survey.onrender.com/submit-survey', {
+    fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(finalData)
+        body: JSON.stringify({ responseData: finalData })
     })
         .then(response => {
             if (response.ok) {
@@ -1280,6 +1269,7 @@ function submitForm() {
             alert('Failed to submit the survey. Please try again later.');
         });
 }
+
 
 // Initialize the first page on load
 window.onload = () => {
