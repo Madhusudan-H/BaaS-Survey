@@ -150,7 +150,6 @@ const pages = [
                 <li><a href="mailto:madhusudanhamirwasia@gmail.com">madhusudanhamirwasia@gmail.com</a></li>
             </ul>
             <button class="start-survey-btn" onclick="startSurvey()">Start Survey!</button>
-
         `
     },
 
@@ -158,7 +157,6 @@ const pages = [
         type: 'form',
         content: `
             <h2>Demographic Information</h2>
-
             <p>1. What is your age? <span style="color: red;">*</span></p>
             <div>
                 <label><input type="radio" name="age" value="under_18" required> Under 18</label><br>
@@ -168,14 +166,12 @@ const pages = [
                 <label><input type="radio" name="age" value="46_60" required> 46-60</label><br>
                 <label><input type="radio" name="age" value="above_60" required> Above 60</label>
             </div>
-
             <p>2. What is your gender? <span style="color: red;">*</span></p>
             <div>
                 <label><input type="radio" name="gender" value="male" required> Male</label><br>
                 <label><input type="radio" name="gender" value="female" required> Female</label><br>
                 <label><input type="radio" name="gender" value="other" required> Other</label>
             </div>
-
             <p>3. What is your employment status? <span style="color: red;">*</span></p>
             <div>
                 <label><input type="radio" name="employment" value="employed" required> Employed</label><br>
@@ -185,7 +181,6 @@ const pages = [
                 <label><input type="radio" name="employment" value="retired" required> Retired</label><br>
                 <label><input type="radio" name="employment" value="disabled" required> Disabled</label>
             </div>
-
             <p>4. How many family members are in your household? <span style="color: red;">*</span></p>
             <div>
                 <label><input type="radio" name="family_members" value="1" required> 1</label><br>
@@ -196,7 +191,6 @@ const pages = [
                 <label><input type="radio" name="family_members" value="6" required> 6</label><br>
                 <label><input type="radio" name="family_members" value="more_than_6" required> 6+</label>
             </div>
-
             <p>5. What is your annual household income? <span style="color: red;">*</span></p>
             <div>
                 <label><input type="radio" name="household_income" value="less_than_3_lakhs" required> Less than ₹3 Lakhs</label><br>
@@ -205,7 +199,6 @@ const pages = [
                 <label><input type="radio" name="household_income" value="12_18_lakhs" required> ₹12-18 Lakhs</label><br>
                 <label><input type="radio" name="household_income" value="more_than_18_lakhs" required> More than ₹18 Lakhs</label>
             </div>
-
             <p>6. What is your highest education level? <span style="color: red;">*</span></p>
             <div>
                 <label><input type="radio" name="education" value="no_schooling" required> Did not attend school</label><br>
@@ -214,7 +207,6 @@ const pages = [
                 <label><input type="radio" name="education" value="undergraduate" required> Undergraduate</label><br>
                 <label><input type="radio" name="education" value="postgraduate" required> Postgraduate</label>
             </div>
-
             <p>7. What is your state of residence? <span style="color: red;">*</span></p>
             <select name="state" required>
                 <option value="">Select your state</option>
@@ -339,7 +331,7 @@ const pages = [
             </div>
         `
     },
-    
+
     {
         type: 'form',
         content: `
@@ -405,7 +397,6 @@ const pages = [
         style="width: 100%; padding: 5px; font-size: 1rem;" 
     />
 </div>
-
     
             <!-- Question 5 -->
             <p>5. Where do you mostly charge your EV? <span style="color: red;">*</span></p>
@@ -494,7 +485,6 @@ const pages = [
             </table>
     
              </div>
-
         <!-- Preference Ranking -->
 <h3>Preference Ranking</h3>
 <p>Please rank the following parameters based on their importance to you: <span style="color: red;">*</span></p>
@@ -554,7 +544,6 @@ const pages = [
         </tbody>
     </table>
 </div>
-
             
              <h3>Approximate EV Charging Costs</h3>
         <p>
@@ -565,19 +554,15 @@ const pages = [
     <p id="home-charging-cost">(Home) Domestic AC Charging: Rs. 0</p> 
     <p id="public-charging-cost">Public DC Charging Station: Rs. 0</p> 
 </div>
-
 <div>
     <p id="agreement-label">Do you agree?</p> <!-- Label with dynamic asterisk -->
     <label><input type="radio" name="charging_cost_agreement" value="yes" required> Yes</label>
     <label><input type="radio" name="charging_cost_agreement" value="no" required> No</label>
 </div>
-
 <div id="custom-expense-container" style="display: none; margin-top: 10px;">
     <label for="custom-expense">Please specify your monthly EV charging expense (Rs.): <span style="color: red;">*</span></label>
     <input type="number" id="custom-expense" name="custom_expense" placeholder="Enter amount in Rs." min="0">
 </div>
-
-
     
         `
     },
@@ -586,8 +571,8 @@ const pages = [
         type: "choice_cards",
         content: "" // This is dynamically generated in renderChoiceCardPage
     }
-      
-    
+
+
 ];
 
 let currentPage = 0;
@@ -637,7 +622,7 @@ const evMileage = {
   "Volvo EX42 (82 kWh)": { "range": 534, "battery": 82 },
   "Volvo EX43 (82 kWh)": { "range": 525, "battery": 82 },
     "Any Other EV 4 Wheeler": { range: 450, battery: 56 },
-    
+
         "Ampere Magnus EX (2.3 kWh)": { "range": 121, "battery": 2.3 },
         "Ampere Reo Li Plus (1.8 kWh)": { "range": 60, "battery": 1.8 },
         "Ather 450S (2.9 kWh)": { "range": 115, "battery": 2.9 },
@@ -819,10 +804,10 @@ function renderPage() {
 
                 "Any Other EV 4 Wheeler"
             ],
-            
+
             "2_wheeler": [
 
-                
+
                     "Ampere Magnus EX (2.3 kWh)",
                     "Ampere Reo Li Plus (1.8 kWh)",
                     "Ather 450S (2.9 kWh)",
@@ -857,9 +842,9 @@ function renderPage() {
                     "Vida V1 (3.94 kWh)",
                     "Yulu Wynn (0.9 kWh)",
                     "Zelio Eeva (1.92 kWh)",
-                  
+
                  "Any Other EV 2 Wheeler"
-                
+
                 ]
         };
 
@@ -905,29 +890,29 @@ function renderPage() {
         const surveyData = JSON.parse(localStorage.getItem('surveyData')) || {};
         const dailyAvgDistance = parseInt(surveyData.driving_distance, 10) || 30; // Default to 30 km if not set
         const monthlyRange = dailyAvgDistance * 36; // Monthly average range
-    
+
         const selectedModel = surveyData.primary_ev_model || "Any Other EV 4 Wheeler";
         const evDetails = evMileage[selectedModel] || { range: 450, battery: 50 };
-    
+
         const totalKWh = calculateMonthlyKWh(monthlyRange, evDetails.range, evDetails.battery);
-    
+
         const publicChargingCost = calculateChargingCost(totalKWh, 15); // Public rate: 15 Rs/kWh
         const stateRate = electricityRates[surveyData.state] || 5.5; // Default state rate
         const homeChargingCost = calculateChargingCost(totalKWh, stateRate); // State rate
-    
+
         document.getElementById('home-charging-cost').innerText = `(Home) Domestic AC Charging: ₹${homeChargingCost}`;
         document.getElementById('public-charging-cost').innerText = `Public DC Charging Station: ₹${publicChargingCost}`;
-    
-    
+
+
         // Ensure "Do you agree?" text has an asterisk
         const agreementLabel = document.getElementById('agreement-label');
         agreementLabel.innerHTML = 'Do you agree? <span style="color: red;">*</span>';
-    
+
         // Show custom expense field if user selects "No"
         const agreementRadios = document.querySelectorAll('input[name="charging_cost_agreement"]');
         const customExpenseContainer = document.getElementById('custom-expense-container');
         const customExpenseInput = document.getElementById('custom-expense');
-    
+
         agreementRadios.forEach(radio => {
             radio.addEventListener('change', () => {
                 if (radio.value === 'no') {
@@ -945,7 +930,7 @@ function renderPage() {
         renderChoiceCardPage(0); // Start the choice cards
         return; // Stop further rendering for this page
     }
-    
+
 }
 
 
@@ -960,9 +945,9 @@ function renderChoiceCardPage(choiceIndex) {
         const choiceData = choiceCardData[choiceIndex];
         if (!choiceData) {
             throw new Error(`Choice data not found for index: ${choiceIndex}`);
+        }
           return;
     }
-
     console.log("Rendering Choice Card Page:", choiceIndex);
     const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
     console.log("Survey Data Before Rendering:", surveyData);
@@ -1098,13 +1083,19 @@ function renderChoiceCardPage(choiceIndex) {
 
 // Submit the survey
 async function submitSurvey() {
+    try {
+        // Retrieve all survey data from localStorage
+        const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
     const surveyData = JSON.parse(localStorage.getItem('surveyData')) || {};
     console.log("Final Survey Data Before Submission:", surveyData);
 
+        // Debug: Log the survey data before submission
+        console.log("Survey Data to Submit:", surveyData);
     if (!surveyData['choice-9']) {
         console.error("Error: choice-9 is missing from the survey data!");
     }
 
+        // Send the data to the backend
     try {
         const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
             method: 'POST',
@@ -1116,18 +1107,21 @@ async function submitSurvey() {
 
         if (response.ok) {
             alert('Survey submitted successfully!');
+            localStorage.clear(); // Clear the stored data after successful submission
+            window.location.href = '/thank-you.html'; // Redirect to thank-you page
             localStorage.clear();
             window.location.href = '/thank-you.html';
         } else {
             const errorData = await response.json();
             console.error('Error submitting survey:', errorData);
+            alert('Failed to submit the survey. Please try again later.');
         }
     } catch (error) {
+        console.error('Error submitting survey:', error);
+        alert('An error occurred during submission. Please try again.');
         console.error('Error:', error);
     }
 }
-
-
 
 
 
@@ -1241,7 +1235,7 @@ function savePageData() {
         // Retrieve and merge existing data from localStorage
         const savedData = JSON.parse(localStorage.getItem('surveyData')) || {};
         const updatedData = { ...savedData, ...pageData };
-        
+
         // Save the updated data back to localStorage
         localStorage.setItem('surveyData', JSON.stringify(updatedData));
 
