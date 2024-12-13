@@ -1091,10 +1091,15 @@ function renderChoiceCardPage(choiceIndex) {
 
 
 
+
 // Submit the survey
 async function submitSurvey() {
     try {
         const db = window.firebaseDb;
+        if (!db) {
+            throw new Error("Firestore is not initialized. Check Firebase setup.");
+        }
+
         const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
         const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
@@ -1120,6 +1125,7 @@ async function submitSurvey() {
         alert("Failed to submit the survey. Please try again later.");
     }
 }
+
 
 
 
@@ -1242,34 +1248,7 @@ function validateInputs() {
     return true;
 }
 
-// Submit the form data to the server
-function submitForm() {
-    const finalData = JSON.parse(localStorage.getItem('surveyData')) || {};
-    console.log("Submitting survey data:", finalData);
 
-    fetch('https://baas-survey.onrender.com/submit-survey', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(finalData)
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error(`HTTP Error: ${response.status}`);
-            }
-        })
-        .then(data => {
-            console.log('Server Response:', data);
-            alert('Survey submitted successfully!');
-            localStorage.clear();
-            window.location.href = '/thank-you.html';
-        })
-        .catch(error => {
-            console.error('Error submitting form:', error);
-            alert('Failed to submit the survey. Please try again later.');
-        });
-}
 
 // Initialize the first page on load
 window.onload = () => {
