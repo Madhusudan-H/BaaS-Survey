@@ -1304,7 +1304,7 @@ function submitForm() {
     const finalData = JSON.parse(localStorage.getItem('surveyData')) || {};
     console.log("Submitting survey data:", finalData);
 
-    fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
+    fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/test11', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ responseData: finalData })
