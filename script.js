@@ -1093,6 +1093,7 @@ function renderChoiceCardPage(choiceIndex) {
 
 // Submit the survey
 function submitSurvey() {
+    // Retrieve survey data from localStorage
     const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
     const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
@@ -1107,22 +1108,28 @@ function submitSurvey() {
 
     console.log("Submitting survey data:", surveyData);
 
-    // Access Firestore from the global window object
-    const db = window.firebaseDb;
+    try {
+        // Access Firestore from the global window object
+        const db = window.firebaseDb;
 
-    // Save data to Firestore
-    db.collection("survey-responses")
-        .add(surveyData)
-        .then(() => {
-            alert("Survey submitted successfully!");
-            localStorage.clear(); // Clear local storage after successful submission
-            window.location.href = "/thank-you.html"; // Redirect to thank-you page
-        })
-        .catch((error) => {
-            console.error("Error submitting survey:", error);
-            alert("Failed to submit the survey. Please try again later.");
-        });
+        // Add survey data to the "survey-responses" collection
+        db.collection("survey-responses")
+            .add(surveyData)
+            .then(() => {
+                alert("Survey submitted successfully!");
+                localStorage.clear(); // Clear local storage after successful submission
+                window.location.href = "/thank-you.html"; // Redirect to thank-you page
+            })
+            .catch((error) => {
+                console.error("Error saving survey data:", error);
+                alert("Failed to submit the survey. Please try again later.");
+            });
+    } catch (error) {
+        console.error("Error in submitSurvey:", error);
+        alert("An error occurred. Please check your Firebase setup.");
+    }
 }
+
 
 // Navigation functions
 function nextChoiceCard() {
