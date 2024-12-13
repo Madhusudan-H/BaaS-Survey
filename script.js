@@ -1092,43 +1092,35 @@ function renderChoiceCardPage(choiceIndex) {
 
 
 // Submit the survey
-function submitSurvey() {
-    // Retrieve survey data from localStorage
-    const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-    const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
-
-    if (!selectedPlan) {
-        alert("Please select a plan before submitting.");
-        return;
-    }
-
-    // Save the selected plan
-    surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
-    localStorage.setItem("surveyData", JSON.stringify(surveyData));
-
-    console.log("Submitting survey data:", surveyData);
-
+async function submitSurvey() {
     try {
-        // Access Firestore from the global window object
         const db = window.firebaseDb;
+        const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
+        const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
-        // Add survey data to the "survey-responses" collection
-        db.collection("survey-responses")
-            .add(surveyData)
-            .then(() => {
-                alert("Survey submitted successfully!");
-                localStorage.clear(); // Clear local storage after successful submission
-                window.location.href = "/thank-you.html"; // Redirect to thank-you page
-            })
-            .catch((error) => {
-                console.error("Error saving survey data:", error);
-                alert("Failed to submit the survey. Please try again later.");
-            });
+        if (!selectedPlan) {
+            alert("Please select a plan before submitting.");
+            return;
+        }
+
+        // Save the selected plan to survey data
+        surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
+        localStorage.setItem("surveyData", JSON.stringify(surveyData));
+
+        console.log("Submitting survey data to Firestore:", surveyData);
+
+        // Add data to Firestore
+        const docRef = await db.collection("surveyResponses").add(surveyData);
+
+        alert(`Survey submitted successfully! Document ID: ${docRef.id}`);
+        localStorage.clear(); // Clear local storage after successful submission
+        window.location.href = "/thank-you.html"; // Redirect to thank-you page
     } catch (error) {
-        console.error("Error in submitSurvey:", error);
-        alert("An error occurred. Please check your Firebase setup.");
+        console.error("Error submitting survey:", error);
+        alert("Failed to submit the survey. Please try again later.");
     }
 }
+
 
 
 // Navigation functions
