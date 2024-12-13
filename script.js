@@ -1093,22 +1093,26 @@ function renderChoiceCardPage(choiceIndex) {
 
 // Submit the survey
 async function submitSurvey() {
-    const surveyData = JSON.parse(localStorage.getItem('surveyData')) || {}; // Retrieve survey data from localStorage
-
     try {
-        // Make a POST request to the Xano endpoint
+        // Retrieve all survey data from localStorage
+        const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
+
+        // Debug: Log the survey data before submission
+        console.log("Survey Data to Submit:", surveyData);
+
+        // Send the data to the backend
         const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:wnqZ7cvb/surveyresponses', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json', // Specify the content type as JSON
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ responseData: surveyData }), // Send survey data as the request body
+            body: JSON.stringify({ responseData: surveyData }),
         });
 
         if (response.ok) {
             alert('Survey submitted successfully!');
-            localStorage.clear(); // Clear stored data after successful submission
-            window.location.href = '/thank-you.html'; // Redirect to the thank-you page
+            localStorage.clear(); // Clear the stored data after successful submission
+            window.location.href = '/thank-you.html'; // Redirect to thank-you page
         } else {
             const errorData = await response.json();
             console.error('Error submitting survey:', errorData);
@@ -1116,15 +1120,19 @@ async function submitSurvey() {
         }
     } catch (error) {
         console.error('Error submitting survey:', error);
-        alert('Failed to submit the survey. Please check your network and try again.');
+        alert('An error occurred during submission. Please try again.');
     }
 }
+
 
 
 
 // Navigation functions
 function nextChoiceCard() {
     try {
+        const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
+
+        // Retrieve the current selection
         const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
 
         if (!selectedPlan) {
@@ -1132,29 +1140,28 @@ function nextChoiceCard() {
             return;
         }
 
-        // Save the selected plan
-        const surveyData = JSON.parse(localStorage.getItem("surveyData")) || {};
-        surveyData[`choice-${currentChoiceCard}`] = selectedPlan; // Save the selected choice
+        // Save the selected choice to localStorage
+        surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
         localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
-        // Move to the next choice card
+        // Check if this is the last choice card
         if (currentChoiceCard < totalChoiceCards - 1) {
             currentChoiceCard++;
             renderChoiceCardPage(currentChoiceCard);
         } else {
-            // Save the last choice before submitting
-            const finalChoice = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
-            surveyData[`choice-${currentChoiceCard}`] = finalChoice;
+            // Explicitly save the last choice before submitting
+            surveyData[`choice-${currentChoiceCard}`] = selectedPlan;
             localStorage.setItem("surveyData", JSON.stringify(surveyData));
 
-            // Proceed to submit the survey
+            console.log("Final Survey Data:", surveyData); // Debugging
             submitSurvey();
         }
     } catch (error) {
-        console.error("Error saving choice card data:", error);
-        alert("An unexpected error occurred while saving your choice. Please try again.");
+        console.error("Error in nextChoiceCard:", error);
+        alert("An unexpected error occurred. Please refresh the page and try again.");
     }
 }
+
 
 
 
