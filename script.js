@@ -1107,32 +1107,23 @@ function submitSurvey() {
 
     console.log("Submitting survey data:", surveyData);
 
-    // Send the data to the backend
-    fetch('https://baas-survey.onrender.com/submit-survey', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(surveyData)
-    })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    console.error('Error Response from Server:', errorData);
-                    throw new Error(`Server responded with status: ${response.status}`);
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Server Response:', data);
-            alert('Survey submitted successfully!');
+    // Access Firestore from the global window object
+    const db = window.firebaseDb;
+
+    // Save data to Firestore
+    db.collection("survey-responses")
+        .add(surveyData)
+        .then(() => {
+            alert("Survey submitted successfully!");
             localStorage.clear(); // Clear local storage after successful submission
-            window.location.href = '/thank-you.html'; // Redirect to thank-you page
+            window.location.href = "/thank-you.html"; // Redirect to thank-you page
         })
-        .catch(error => {
-            console.error('Error submitting survey:', error);
-            alert('Failed to submit the survey. Please try again later.');
+        .catch((error) => {
+            console.error("Error submitting survey:", error);
+            alert("Failed to submit the survey. Please try again later.");
         });
 }
+
 // Navigation functions
 function nextChoiceCard() {
     const selectedPlan = document.querySelector(`select[name="choice-${currentChoiceCard}"]`)?.value;
